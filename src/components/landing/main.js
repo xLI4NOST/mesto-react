@@ -9,9 +9,9 @@ import Card from "./card";
 //     }
 // });
 function Main(props) {
-    const [isUserName, setIsUserName] = useState()
-    const [isUserDesctiption, setIsUserDesctiption] = useState()
-    const [isUserAvatar, setIsUserAvatar] = useState()
+    const [isUserName, setIsUserName] = useState('')
+    const [isUserDesctiption, setIsUserDesctiption] = useState('')
+    const [isUserAvatar, setIsUserAvatar] = useState('')
     const [cards, setCards] = useState([])
 
     useEffect(() => {
@@ -22,6 +22,10 @@ function Main(props) {
                 setIsUserAvatar(userData.avatar)
                 setCards(cards)
             })
+            .catch(err => {
+                console.log(err);
+            });
+        
     }, [])
     return (
         <div className="main">
@@ -40,11 +44,11 @@ function Main(props) {
                 <button type="button" onClick={props.addNewCard} className="profile__add-button" />
             </section>
             <section className="elements">
-                {cards.map((x) => 
+                {cards.map((card) => 
                 <Card
-                    key={x._id}
-                    card= {x}
-                    likes = {x.likes.length}
+                    key={card._id}
+                    card= {card}
+                    likes = {card.likes.length}
                     click = {props.onCardClick}
                 />
                 )}
