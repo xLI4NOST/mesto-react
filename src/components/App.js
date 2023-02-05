@@ -11,6 +11,7 @@ import { userContext } from '../contexts/CurrentUserContext.js'
 import { api } from "../utils/Api";
 import EditProfilePopup from "../components/landing/EditProfilePopup.js"
 import EditAvatarPopup from "../components/landing/EditAvatrPopup.js"
+import AddPlacePopup from './landing/AddPlacePopup';
 
 
 
@@ -59,6 +60,18 @@ function App() {
         setCurrentUser(newInfo)
       })
   }
+
+//Создаем карточку 
+function handleAddPlaceSubmit (value) {
+  console.log();
+  api.addNewCard (value.place, value.link) 
+  .then ((newCard)=>{
+    setCards([newCard, ...cards]);
+    
+  })
+  
+}
+
 
 
   // лайки на карточку 
@@ -120,17 +133,15 @@ function App() {
   const allPopups = document.querySelectorAll('.popup')
 
   function closeAllPopups() {
-    // allPopups.forEach((elem) => {
-    //   elem.classList.add('animation-close')
-    // })
-    // setTimeout(() => {
-    //   closeState()
-    //   allPopups.forEach((elem) => {
-    //     elem.classList.remove('animation-close')
-    //   })
-    // }, 500);
-    closeState()
-
+    allPopups.forEach((elem) => {
+      elem.classList.add('animation-close')
+    })
+    setTimeout(() => {
+      closeState()
+      allPopups.forEach((elem) => {
+        elem.classList.remove('animation-close')
+      })
+    }, 500);
   }
 
   return (
@@ -192,39 +203,7 @@ function App() {
         </PopupWithForm> */}
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-        <PopupWithForm
-          name='cards'
-          title='Новое место'
-          closeAll={closeAllPopups}
-          isOpen={isCardsPopupOpen}
-          buttonText={'Создать'}
-          className="menu__button menu-cards__buttonCreate menu__submit"
-        >
-          <input
-            id="cardName"
-            type="text"
-            name="name"
-            placeholder="Название"
-            minLength={2}
-            maxLength={30}
-            required=""
-            noValidate=""
-            className="form__input form-cards__input form-cards__input_type_text"
-          />
-          <span id="cardName-error" className="error-span" />
-          <input
-            id="link"
-            type="url"
-            name="link"
-            required=""
-            noValidate=""
-            minLength={2}
-            placeholder="Ссылка на картинку"
-            className="form__input form-cards__input form-cards__input_type_link"
-          />
-          <span id="link-error" className="error-span" />
-
-        </PopupWithForm>
+         <AddPlacePopup isOpen={isCardsPopupOpen} onClose={closeAllPopups} onAddCard={handleAddPlaceSubmit}/>
 
         <PopupWithForm
           name='confirm'
