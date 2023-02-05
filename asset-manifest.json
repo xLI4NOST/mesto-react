@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/xLI4NOST/mesto-react.git/static/css/main.0278b0df.css",
-    "main.js": "/xLI4NOST/mesto-react.git/static/js/main.38ae0c74.js",
+    "main.js": "/xLI4NOST/mesto-react.git/static/js/main.f79843c9.js",
     "static/js/787.5530211c.chunk.js": "/xLI4NOST/mesto-react.git/static/js/787.5530211c.chunk.js",
     "static/media/Inter-Medium.woff": "/xLI4NOST/mesto-react.git/static/media/Inter-Medium.9053572c46aeb4b16caa.woff",
     "static/media/Inter-Black.woff": "/xLI4NOST/mesto-react.git/static/media/Inter-Black.c6938660eec019fefd68.woff",
@@ -19,11 +19,11 @@
     "static/media/Close_Icon.svg": "/xLI4NOST/mesto-react.git/static/media/Close_Icon.2ceb783afbab75916ddc.svg",
     "static/media/plus.svg": "/xLI4NOST/mesto-react.git/static/media/plus.54b1426515811a15ebaf.svg",
     "main.0278b0df.css.map": "/xLI4NOST/mesto-react.git/static/css/main.0278b0df.css.map",
-    "main.38ae0c74.js.map": "/xLI4NOST/mesto-react.git/static/js/main.38ae0c74.js.map",
+    "main.f79843c9.js.map": "/xLI4NOST/mesto-react.git/static/js/main.f79843c9.js.map",
     "787.5530211c.chunk.js.map": "/xLI4NOST/mesto-react.git/static/js/787.5530211c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0278b0df.css",
-    "static/js/main.38ae0c74.js"
+    "static/js/main.f79843c9.js"
   ]
 }
