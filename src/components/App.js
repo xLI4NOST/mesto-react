@@ -8,14 +8,16 @@ import PopupWithForm from './landing/popupWithForm';
 import Main from './landing/main';
 import ImagePopup from './landing/imagePopup';
 import { userContext } from '../contexts/CurrentUserContext.js'
-import Api from '../utils/Api';
 import { api } from "../utils/Api";
+import EditProfilePopup from "../components/landing/EditProfilePopup.js"
+import EditAvatarPopup from "../components/landing/EditAvatrPopup.js"
 
 
 
 
 
 function App() {
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
   const [isAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false)
   const [isCardsPopupOpen, setIsCardsPopupOpen] = useState(false)
@@ -43,6 +45,22 @@ function App() {
 
   }, [])
 
+  //Меняем профиль
+  function handleUpdateUser({ name, about }) {
+    api.changeUserInfo(name, about)
+      .then((newInfo) => {
+        setCurrentUser(newInfo)
+      })
+  }
+  //Avatar
+  function handleUpdateAvatar(link) {
+    api.changeUserAvatar(link.avatar)
+      .then((newInfo) => {
+        setCurrentUser(newInfo)
+      })
+  }
+
+
   // лайки на карточку 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
@@ -54,16 +72,16 @@ function App() {
   }
 
   //Удаление карточки 
-  function handleCardDelete (card){
-    if (card.owner._id === currentUser._id){
+  function handleCardDelete(card) {
+    if (card.owner._id === currentUser._id) {
       api.deleteMyCard(card._id)
       const newArr = cards.filter(
-        function (elem){
+        function (elem) {
           return elem !== card
         }
       )
       setCards(newArr)
-    } else{
+    } else {
       console.log(currentUser._id);
       console.log(card._id);
     }
@@ -82,10 +100,10 @@ function App() {
     // document.querySelector('.popup_type_avatar').classList.add('popup_active')
     setIsAvatarPopupOpen(true)
   }
-  function openPopupConfirm() {
-    // document.querySelector('.popup_type_confirm').classList.add('popup_active')
-    setIsEditProfilePopupOpen(true)
-  }
+  // function openPopupConfirm() {
+  //   // document.querySelector('.popup_type_confirm').classList.add('popup_active')
+  //   setIsEditProfilePopupOpen(true)
+  // }
   function handleCardClick(card) {
     setIsSelectedCard(card)
   }
@@ -131,7 +149,7 @@ function App() {
               onEditProfile={openEditProfile}
               addNewCard={openAddNewCard}
               changeAvatar={openChangeAvatar}
-              confirm={openPopupConfirm}
+              // confirm={openPopupConfirm}
               onCardClick={handleCardClick}
               onCardLike={handleCardLike}
               cards={cards}
@@ -140,7 +158,8 @@ function App() {
             <Footer />
           </div>
         </div>
-        <PopupWithForm
+
+        {/* <PopupWithForm
           name='profile'
           title='Редактировать профиль'
           closeAll={closeAllPopups}
@@ -170,7 +189,9 @@ function App() {
             className="form__input form__input_type_job"
           />
           <span id="about-error" className="error-span" />
-        </PopupWithForm>
+        </PopupWithForm> */}
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+        <EditAvatarPopup isOpen={isAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
         <PopupWithForm
           name='cards'
           title='Новое место'
@@ -204,29 +225,7 @@ function App() {
           <span id="link-error" className="error-span" />
 
         </PopupWithForm>
-        <PopupWithForm
-          name='avatar'
-          title='Сменить Аватар'
-          closeAll={closeAllPopups}
-          isOpen={isAvatarPopupOpen}
-          buttonText={'Сохранить'}
-          className="menu-avatar__button menu__button menu__submit"
-        >
-          <input
-            id="avarat-link"
-            type="url"
-            name="link"
-            required=""
-            noValidate=""
-            minLength={2}
-            placeholder="Ссылка на картинку"
-            className="form__input form-avatar__input"
-          />
-          <span
-            id="avarat-link-error"
-            className="error-span menu-avatar__error-span"
-          />
-        </PopupWithForm>
+
         <PopupWithForm
           name='confirm'
           title='Вы уверены?'
