@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 function PopupWithForm(props) {
     return (
-        <div className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_active' : 'animation-close'}`}  >
-            <div className="menu">
+        <div onClick={props.closeAll} className={`popup  ${props.isOpen ? 'popup_active' : ''}`}  >
+            <div className="menu" onClick={e => e.stopPropagation()}>
                 <button className="menu__close-icon close-icon" type="button" onClick={props.closeAll} />
                 <h2 className="menu__title">{props.title}</h2>
-                <form className="form" noValidate="" onSubmit={props.onSubmit} name={`${props.name}`}>
+                <form className="form" onSubmit={props.onSubmit} name={`${props.name}`}>
                     {props.children}
                     <button type="submit" className={props.className}>
                         {props.buttonText}

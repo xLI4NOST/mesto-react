@@ -5,6 +5,13 @@ import PopupWithForm from "./popupWithForm";
 function AddPlacePopup(props) {
     const [place, setPlace] = useState('')
     const [link, setLink] = useState('')
+
+
+useEffect (()=>{
+    setPlace('')
+    setLink ('')
+}, [props.isOpen])
+
     function handleSetPlace(e) {
         setPlace(e.target.value)
     }
@@ -34,7 +41,7 @@ function AddPlacePopup(props) {
         >
             <input
                 onChange={handleSetPlace}
-                value={place}
+                value={place || ''}
                 id="cardName"
                 type="text"
                 name="name"
@@ -48,7 +55,7 @@ function AddPlacePopup(props) {
             <span id="cardName-error" className="error-span" />
             <input
                 onChange={handleSetLink}
-                value={link}
+                value={link || ''}
                 id="link"
                 type="url"
                 name="link"

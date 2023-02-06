@@ -9,7 +9,7 @@ function EditProfilePopup(props) {
     React.useEffect(() => {
         setName(apiUserContext.name);
         setDescription(apiUserContext.about);
-      }, [apiUserContext]); 
+      }, [apiUserContext, props.isOpen]); 
 
     function handleChangeName(e) {
         setName(e.target.value)
@@ -44,7 +44,7 @@ function EditProfilePopup(props) {
         >
             <input
                 onChange={handleChangeName}
-                value={name}
+                value={name || ''}
                 id="user-name"
                 type="text"
                 name="name"
@@ -57,7 +57,7 @@ function EditProfilePopup(props) {
             <span id="user-name-error" className="error-span" />
             <input
                 onChange={handleChangeAbout}
-                value={description}
+                value={description || ''}
                 id="about"
                 type="text"
                 name="about"

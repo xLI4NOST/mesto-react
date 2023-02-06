@@ -10,7 +10,7 @@ import ImagePopup from './landing/imagePopup';
 import { userContext } from '../contexts/CurrentUserContext.js'
 import { api } from "../utils/Api";
 import EditProfilePopup from "../components/landing/EditProfilePopup.js"
-import EditAvatarPopup from "../components/landing/EditAvatrPopup.js"
+import EditAvatarPopup from "./landing/EditAvatarPopup.js"
 import AddPlacePopup from './landing/AddPlacePopup';
 
 
@@ -25,20 +25,13 @@ function App() {
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false)
   const [cards, setCards] = useState([])
   const [selectedCard, setIsSelectedCard] = useState(null)
-  const [currentUser, setCurrentUser] = useState([])
-
-
-  useEffect(() => {
-    Promise.all([api.getUserData()])
-      .then(([userData]) => {
-        setCurrentUser(userData)
-      })
-  }, [])
+  const [currentUser, setCurrentUser] = useState({})
 
   useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCards()])
       .then(([userData, cards]) => {
         setCards(cards)
+        setCurrentUser(userData)
       })
       .catch(err => {
         console.log(err);
@@ -52,6 +45,9 @@ function App() {
       .then((newInfo) => {
         setCurrentUser(newInfo)
       })
+      .catch(err => {
+        console.log(err);
+      });
   }
   //Avatar
   function handleUpdateAvatar(link) {
@@ -59,20 +55,22 @@ function App() {
       .then((newInfo) => {
         setCurrentUser(newInfo)
       })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
-//Создаем карточку 
-function handleAddPlaceSubmit (value) {
-  console.log();
-  api.addNewCard (value.place, value.link) 
-  .then ((newCard)=>{
-    setCards([newCard, ...cards]);
-    
-  })
-  
-}
-
-
+  //Создаем карточку 
+  function handleAddPlaceSubmit(value) {
+    console.log();
+    api.addNewCard(value.place, value.link)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   // лайки на карточку 
   function handleCardLike(card) {
@@ -88,12 +86,15 @@ function handleAddPlaceSubmit (value) {
   function handleCardDelete(card) {
     if (card.owner._id === currentUser._id) {
       api.deleteMyCard(card._id)
-      const newArr = cards.filter(
-        function (elem) {
-          return elem !== card
-        }
-      )
-      setCards(newArr)
+      .then (()=>{
+        const newArr = cards.filter(
+          function (elem) {
+            return elem !== card
+          }
+        )
+        setCards(newArr)
+      })
+   
     } else {
       console.log(currentUser._id);
       console.log(card._id);
@@ -133,15 +134,16 @@ function handleAddPlaceSubmit (value) {
   const allPopups = document.querySelectorAll('.popup')
 
   function closeAllPopups() {
-    allPopups.forEach((elem) => {
-      elem.classList.add('animation-close')
-    })
-    setTimeout(() => {
-      closeState()
-      allPopups.forEach((elem) => {
-        elem.classList.remove('animation-close')
-      })
-    }, 500);
+    // allPopups.forEach((elem) => {
+    //   elem.classList.add('animation-close')
+    // })
+    // setTimeout(() => {
+    //   closeState()
+    //   allPopups.forEach((elem) => {
+    //     elem.classList.remove('animation-close')
+    //   })
+    // }, 500);
+    closeState()
   }
 
   return (
@@ -203,7 +205,7 @@ function handleAddPlaceSubmit (value) {
         </PopupWithForm> */}
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-         <AddPlacePopup isOpen={isCardsPopupOpen} onClose={closeAllPopups} onAddCard={handleAddPlaceSubmit}/>
+        <AddPlacePopup isOpen={isCardsPopupOpen} onClose={closeAllPopups} onAddCard={handleAddPlaceSubmit} />
 
         <PopupWithForm
           name='confirm'
