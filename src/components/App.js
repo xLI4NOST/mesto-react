@@ -12,10 +12,7 @@ import { api } from "../utils/Api";
 import EditProfilePopup from "../components/landing/EditProfilePopup.js"
 import EditAvatarPopup from "./landing/EditAvatarPopup.js"
 import AddPlacePopup from './landing/AddPlacePopup';
-
-
-
-
+import Transition from 'react-transition-group/cjs/Transition';
 
 function App() {
 
@@ -79,28 +76,33 @@ function App() {
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api.setLikeCard(card._id, !isLiked).then((newCard) => {
       setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    });
+    })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   //Удаление карточки 
   function handleCardDelete(card) {
     if (card.owner._id === currentUser._id) {
       api.deleteMyCard(card._id)
-      .then (()=>{
-        const newArr = cards.filter(
-          function (elem) {
-            return elem !== card
-          }
-        )
-        setCards(newArr)
-      })
-   
+        .then(() => {
+          const newArr = cards.filter(
+            function (elem) {
+              return elem !== card
+            }
+          )
+          setCards(newArr)
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
     } else {
       console.log(currentUser._id);
       console.log(card._id);
     }
   }
-
 
   function openEditProfile() {
     // document.querySelector('.popup_type_profile').classList.add('popup_active')
@@ -203,6 +205,7 @@ function App() {
           />
           <span id="about-error" className="error-span" />
         </PopupWithForm> */}
+
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
         <AddPlacePopup isOpen={isCardsPopupOpen} onClose={closeAllPopups} onAddCard={handleAddPlaceSubmit} />

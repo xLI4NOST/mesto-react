@@ -1,9 +1,8 @@
 import React from "react";
 function ImagePopup (props){
-
     return (
-        <div className={`popup popup_type_image ${props.card ? 'popup_active' : 'animation-close'}`}>
-        <div className="image-container">
+        <div onClick={props.closeAll} className={`popup ${props.card ? 'popup_active' : ''}`}>
+        <div className="image-container" onClick={e=>e.stopPropagation()}>
           <button
             className="image-container__close-icon close-icon"
             id="close-icon"

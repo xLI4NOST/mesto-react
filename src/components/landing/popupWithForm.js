@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { Transition } from 'react-transition-group';
+const transitionStyles = {
+    entering: 'popup_active',
+    entered:  'popup_active',
+    exiting:  'animation-close',
+    exited:  '',
+};
+
 function PopupWithForm(props) {
     return (
-        <div onClick={props.closeAll} className={`popup  ${props.isOpen ? 'popup_active' : ''}`}  >
+<Transition in={props.isOpen} timeout ={700}>
+       {state=> <div onClick={props.closeAll} className={`popup ${transitionStyles[state]}`}  >
             <div className="menu" onClick={e => e.stopPropagation()}>
                 <button className="menu__close-icon close-icon" type="button" onClick={props.closeAll} />
                 <h2 className="menu__title">{props.title}</h2>
@@ -13,6 +22,9 @@ function PopupWithForm(props) {
                 </form>
             </div>
         </div>
+}
+        </Transition>
+
     )
 }
 

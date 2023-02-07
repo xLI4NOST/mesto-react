@@ -13,8 +13,6 @@ function Card(props) {
           props.onCardDelete (props.card)
       }
 
-
-
       const apiUserContext = React.useContext(userContext)
       const isOwn = props.card.owner._id === apiUserContext._id;
       const isLiked = props.card.likes.some(i => i._id === apiUserContext._id);

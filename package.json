@@ -1,6 +1,6 @@
 {
   "name": "mesto-react",
-  "homepage": "https://github.com/xLI4NOST/mesto-react.git",
+  "homepage": "https://xli4nost.github.io/mesto-react/",
   "version": "0.1.0",
   "private": false,
   "dependencies": {
@@ -10,6 +10,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -43,6 +44,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/xLI4NOST/mesto-react.git"
+    "url": "git+https://github.com/xLI4NOST/mesto-react.git"
   }
 }

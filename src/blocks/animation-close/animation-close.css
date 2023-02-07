@@ -1,4 +1,5 @@
 .animation-close{
+  display: block;
     animation: close-opacity 0.7s ease-in;
     animation-iteration-count: 1;
 }
