@@ -2,6 +2,7 @@
 import '../index.css'
 import './landing/header.js'
 import { React, useState, useEffect } from 'react';
+import {Route, Routes} from 'react-router-dom'
 import Header from './landing/header.js';
 import Footer from './landing/footer';
 import PopupWithForm from './landing/popupWithForm';
@@ -12,10 +13,12 @@ import { api } from "../utils/Api";
 import EditProfilePopup from "../components/landing/EditProfilePopup.js"
 import EditAvatarPopup from "./landing/EditAvatarPopup.js"
 import AddPlacePopup from './landing/AddPlacePopup';
-import Transition from 'react-transition-group/cjs/Transition';
+import Register from './landing/userReg/Register';
+import SignIn from './landing/userReg/sign-in';
+import InfpToolTip from './landing/userReg/InfoToolTip';
+import {authApi} from '../utils/AuthApi'
 
 function App() {
-
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
   const [isAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false)
   const [isCardsPopupOpen, setIsCardsPopupOpen] = useState(false)
@@ -23,6 +26,7 @@ function App() {
   const [cards, setCards] = useState([])
   const [selectedCard, setIsSelectedCard] = useState(null)
   const [currentUser, setCurrentUser] = useState({})
+  const [isLogin, setIsLogin] = useState (false)
 
   useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCards()])
@@ -59,7 +63,6 @@ function App() {
 
   //Создаем карточку 
   function handleAddPlaceSubmit(value) {
-    console.log();
     api.addNewCard(value.place, value.link)
       .then((newCard) => {
         setCards([newCard, ...cards]);
@@ -68,6 +71,61 @@ function App() {
         console.log(err);
       });
   }
+
+//регистрируемся 
+function handleRegistr (email, password){
+  authApi.postUser(email, password)
+  .then ((res)=>{
+    console.log(res);
+  })
+  .catch((err)=>{
+    console.log(err);
+
+  })
+  console.log(email);
+  console.log(password);
+}
+
+// авторизируемся
+function handleAutorizUser (email, password){
+  authApi.autorizeUser(email, password)
+  .then ((res)=>{
+    console.log();
+  })
+  .catch((err)=>{
+    console.log(err);
+
+  })
+}
+//Проверяем токен
+authApi.checkTokenUser()
+.then ((res)=>{
+  
+})
+.catch ((err)=>{
+  console.log(err);
+
+})
+
+useEffect (()=>{
+  handleTokenCheck()
+}, [])
+
+
+
+
+function handleTokenCheck (){
+if (localStorage.getItem('token')){
+  const jwt = localStorage.getItem('token')
+  authApi.checkTokenUser(jwt)
+  .then ((res)=>{
+    if(res){
+      setIsLogin(true)
+    }
+  })
+}
+}
+
 
   // лайки на карточку 
   function handleCardLike(card) {
@@ -160,7 +218,9 @@ function App() {
         <div className='page'>
           <div className="wrapper">
             <Header />
-            <Main
+            <Routes>
+              <Route path='/sign-up' element ={<Register onRegistr= {handleRegistr} />}/>
+              <Route path='/' element ={ <Main
               onEditProfile={openEditProfile}
               addNewCard={openAddNewCard}
               changeAvatar={openChangeAvatar}
@@ -169,7 +229,11 @@ function App() {
               onCardLike={handleCardLike}
               cards={cards}
               onCardDelete={handleCardDelete}
-            />
+            />}/>
+            <Route path='sign-in' element={<SignIn onSignin ={handleAutorizUser}/>}/>
+            <Route path='menu' element={<InfpToolTip/>} />
+            </Routes>
+           
             <Footer />
           </div>
         </div>

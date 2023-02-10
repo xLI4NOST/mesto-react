@@ -12,6 +12,10 @@
 @import url(blocks/popup/_type_cards/popup_type_cards.css);
 /* popup-avatar */
 @import url(blocks/popup/_type_avatar/popup_type_avatar.css);
+/* form-register */
+@import url(blocks/form-register/form-register.css);
+@import url(blocks/form-register/__button/form-register__button.css);
+@import url(blocks/form-register/__input/form-register__input.css);
 /* form-cards */
 @import url(blocks/form-cards/form-cards.css);
 @import url(blocks/form-cards/__input/form-cards__input.css);
@@ -81,4 +85,15 @@
 @import url(blocks/footer/__copyright/footer__copyright.css);
 /* animate */
 @import url(blocks/animation-open/animation-open.css);
-@import url(blocks/animation-close/animation-close.css)
+@import url(blocks/animation-close/animation-close.css);
+/* auth */
+@import url(blocks//header/__button/header__button.css);
+/* register */
+@import url(blocks/register/register.css);
+@import url(blocks/register/__button/register__button.css);
+@import url(blocks/register/__text/register__text.css);
+/* toolTip */
+@import url(blocks/infoToolTip/infoToolTipOverlay.css);
+@import url(blocks/infoToolTip/__image/infoToolTipOverlay__image.css);
+@import url(blocks/infoToolTip/__menu/infoToolTipOverlay__menu.css);
+@import url(blocks/infoToolTip/__text/infoToolTipOverlay__text.css);
